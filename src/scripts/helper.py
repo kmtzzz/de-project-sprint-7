@@ -22,7 +22,7 @@ def get_city_dict(city_dict_path: str, spark: SparkSession)-> pyspark.sql.DataFr
 # preparation of partial events dataset 
 def get_sampled_events(events_input_path:str, sample_fraction: float, spark: SparkSession) -> pyspark.sql.DataFrame:
 
-    # prepare sample Dataset due to inital Dataset has more than 46M of records. Taking ~3% of messages
+    # prepare sample Dataset due to inital Dataset has more than 46M of records.
     if sample_fraction > 1:
         sample_fraction = 1
 
