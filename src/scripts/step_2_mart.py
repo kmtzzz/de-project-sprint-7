@@ -22,21 +22,27 @@ spark = SparkSession.builder \
                     .appName("project_s7_step_2") \
                     .getOrCreate()
 
-# paths for datasets 
-#events_source = '/user/master/data/geo/events'
-#city_dict_source = '/user/nabordotby/data/city_dict'
+# path for ODS 
+sample_source = '/user/nabordotby/data/sample/mart_1'
+
 
 def calculate_mart(events_input_path: str, city_dict: str, spark: SparkSession) -> pyspark.sql.DataFrame:
     
     # read city dictionary
     cities = get_city_dict(city_dict, spark).persist()
     # fetch sampled messages with populated coordinates
-    messages = get_sampled_events(events_input_path, 0.03, spark)\
+    events = get_sampled_events(events_input_path, 0.03, spark)\
                 .where(("event_type == 'message' AND event.message_ts is not null AND lat is not null and lon is not null"))\
                 .withColumn("user_id", F.col("event.message_from"))\
                 .withColumn("message_ts", F.to_date("event.message_ts"))\
                 .select("user_id", "event_id","message_ts", "date", "lat", "lon")
     
+    # and save to disk
+    events.write.mode("overwrite").parquet(f'{sample_source}')
+
+    # fetch dataset for further processing
+    messages = spark.read.parquet(sample_source)
+
     # find for each user message(event_id) closest city
     distance_window = Window().partitionBy('event_id').orderBy(F.col("distance").asc())
 
@@ -116,13 +122,13 @@ def main():
         .master("yarn") \
         .config("spark.driver.cores", "2") \
         .config("spark.driver.memory", "2g") \
-        .appName("project_zhukovanan_new") \
+        .appName("project_s7_step_2") \
         .getOrCreate()
 
     events_input_path = sys.argv[1]
     city_dict = sys.argv[2]
     output_path = sys.argv[3]
-    
+
     mart_df = calculate_mart(events_input_path, city_dict, spark)
         
     mart_df.write.mode("overwrite").parquet(f'{output_path}')
