@@ -17,10 +17,6 @@ os.environ['JAVA_HOME']='/usr'
 os.environ['SPARK_HOME'] ='/usr/lib/spark'
 os.environ['PYTHONPATH'] ='/usr/local/lib/python3.8'
 
-spark = SparkSession.builder \
-                    .master("yarn") \
-                    .appName("project_s7_step_2") \
-                    .getOrCreate()
 
 # path for ODS 
 sample_source = '/user/nabordotby/data/sample/mart_1'
