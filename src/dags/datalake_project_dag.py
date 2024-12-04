@@ -25,7 +25,7 @@ dag = DAG(
                 schedule_interval="@daily",
             )
 
-# define task for step2
+# define task for step 2
 calculate_step_2_mart = SparkSubmitOperator(
                         task_id='calculate_mart_for_step_2',
                         dag=dag,
@@ -39,7 +39,8 @@ calculate_step_2_mart = SparkSubmitOperator(
                         executor_memory = '2g'
             )
 
-# define task for step23
+
+# define task for step 3
 calculate_step_3_mart = SparkSubmitOperator(
                         task_id='calculate_mart_for_step_3',
                         dag=dag,
