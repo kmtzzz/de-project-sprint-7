@@ -54,7 +54,7 @@ def calculate_mart(events_input_path: str, city_dict: str, spark: SparkSession) 
                         )
 
     # build dataset
-    message_window = Window().partitionBy("event.message_from", "city").orderBy(F.col('date'))
+    message_window = Window().partitionBy("event.message_from", "city").orderBy(F.col("date"))
     week_window = Window().partitionBy("week", "city")
     month_window = Window().partitionBy("month", "city")
 
