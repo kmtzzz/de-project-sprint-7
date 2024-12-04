@@ -37,9 +37,9 @@ def get_sphere_points_distance():
     
     distance = 2 * F.lit(6371) * F.asin( 
                                         F.sqrt(
-                                            F.pow(F.sin((F.radians(F.col("lat")) - F.radians(F.col("city_lat"))) / 2), 2) +
-                                            F.cos(F.radians(F.col("lat"))) * F.cos(F.radians(F.col("city_lat"))) *
-                                            F.pow(F.sin((F.radians(F.col("lon")) - F.radians(F.col("city_lon"))) / 2), 2)
+                                               F.pow(F.sin((F.radians(F.col("lat")) - F.radians(F.col("city_lat"))) / 2), 2) +
+                                               F.cos(F.radians(F.col("lat"))) * F.cos(F.radians(F.col("city_lat"))) *
+                                               F.pow(F.sin((F.radians(F.col("lon")) - F.radians(F.col("city_lon"))) / 2), 2)
                                             )
                                     )
 
