@@ -12,7 +12,7 @@ os.environ['PYTHONPATH'] ='/usr/local/lib/python3.8'
 
 events_source = '/user/master/data/geo/events'
 city_dict_source = '/user/nabordotby/data/city_dict'
-output_path = '/user/nabordotby/analytics/mart_1'
+output_path = '/user/nabordotby/data/analytics'
 
 default_args = {
                 'owner': 'airflow',
@@ -20,21 +20,37 @@ default_args = {
         }
 
 dag = DAG(
-                dag_id = "Project",
+                dag_id = "s7_project_datalake",
                 default_args=default_args,
                 schedule_interval="@daily",
             )
 
 # define task for step2
-calculate_user_mart = SparkSubmitOperator(
+calculate_step_2_mart = SparkSubmitOperator(
                         task_id='calculate_mart_for_step_2',
                         dag=dag,
                         application ='/lessons/scripts/step_2_mart.py' ,
                         conn_id= 'yarn_spark',
-                        application_args = [events_source, city_dict_source, output_path],
+                        application_args = [events_source, city_dict_source, f'{output_path}/mart_1'],
                         conf={
                                 "spark.driver.maxResultSize": "20g"
                             },
                         executor_cores = 2,
                         executor_memory = '2g'
             )
+
+# define task for step23
+calculate_step_3_mart = SparkSubmitOperator(
+                        task_id='calculate_mart_for_step_3',
+                        dag=dag,
+                        application ='/lessons/scripts/step_3_mart.py' ,
+                        conn_id= 'yarn_spark',
+                        application_args = [events_source, city_dict_source, f'{output_path}/mart_2'],
+                        conf={
+                                "spark.driver.maxResultSize": "20g"
+                            },
+                        executor_cores = 2,
+                        executor_memory = '2g'
+            )
+
+calculate_step_2_mart >> calculate_step_3_mart
