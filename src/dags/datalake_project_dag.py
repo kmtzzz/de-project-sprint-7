@@ -16,7 +16,7 @@ output_path = '/user/nabordotby/data/analytics'
 
 default_args = {
                 'owner': 'airflow',
-                'start_date':datetime(2020, 1, 1),
+                'start_date':datetime(2024, 12, 7),
         }
 
 dag = DAG(
@@ -54,4 +54,18 @@ calculate_step_3_mart = SparkSubmitOperator(
                         executor_memory = '2g'
             )
 
-calculate_step_2_mart >> calculate_step_3_mart
+# define task for step 4
+calculate_step_4_mart = SparkSubmitOperator(
+                        task_id='calculate_mart_for_step_4',
+                        dag=dag,
+                        application ='/lessons/scripts/step_4_mart.py' ,
+                        conn_id= 'yarn_spark',
+                        application_args = [events_source, city_dict_source, f'{output_path}/mart_3'],
+                        conf={
+                                "spark.driver.maxResultSize": "20g"
+                            },
+                        executor_cores = 2,
+                        executor_memory = '2g'
+            )
+
+calculate_step_2_mart >> calculate_step_3_mart >> calculate_step_4_mart
