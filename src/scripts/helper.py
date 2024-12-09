@@ -3,7 +3,8 @@ import pyspark.sql.functions as F
 from pyspark.sql.window import Window
 from pyspark.sql.functions import sin, cos, asin, sqrt, col, pow, lit, row_number
 
-
+# Set average Earth radius
+avg_radius = 6371
 
 def get_city_dict(city_dict_path: str, spark: SparkSession)-> pyspark.sql.DataFrame:
     # fetch cities dictionary and turn it into dataframe
@@ -35,7 +36,7 @@ def get_sampled_events(events_input_path:str, sample_fraction: float, spark: Spa
 # sphere 2 points distance calculator template
 def get_sphere_points_distance():
     
-    distance = 2 * F.lit(6371) * F.asin( 
+    distance = 2 * F.lit(avg_radius) * F.asin( 
                                         F.sqrt(
                                                F.pow(F.sin((F.radians(F.col("lat")) - F.radians(F.col("city_lat"))) / 2), 2) +
                                                F.cos(F.radians(F.col("lat"))) * F.cos(F.radians(F.col("city_lat"))) *
