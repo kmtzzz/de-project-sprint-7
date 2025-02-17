@@ -1,34 +1,27 @@
-# Структура хранилища:
-
-1. Staging с сырыми данными в /user/master/data/geo/events, формат parquet
-2. ODS слой с отобранным семплом /user/nabordotby/data/sample/  , подпапки mart_1, mart_2, mart_3, формат parquet
-3. Песочница /user/nabordotby/data/analytics/ , подпапки mart_1, mart_2, mart_3, формат parquet
-
-Данные обновляются ежедневно
 
 
+# Spint 7 project
+
+### Description
+This repository is intended for source code of Sprint 7 project.  
+
+***Technologies used in implementation:***
+1. HDFS
+2. YARN
+3. Spark
+4. Python (pyspark)
+5. Jupyter Notebook
+6. Airflow
+
+### Repository structure
+Inside `src` next folders exist:
+- `/src/dags` - DAG for datalake population.
+- `/src/scripts` - spark jobs to calculate data marts.
+
+### Datalake structure
+1. Staging with raw data - /user/master/data/geo/events; parquet
+2. ODS with sampled data - /user/nabordotby/data/sample/, subfolders mart_1, mart_2, mart_3; parquet
+3. Sandbox for analytics /user/nabordotby/data/analytics/ , subfolders mart_1, mart_2, mart_3; parquet
+Daily data refresh
 
 
-# Проект 7-го спринта
-
-### Описание
-Репозиторий предназначен для сдачи проекта 7-го спринта
-
-### Как работать с репозиторием
-1. В вашем GitHub-аккаунте автоматически создастся репозиторий `de-project-sprint-7` после того, как вы привяжете свой GitHub-аккаунт на Платформе.
-2. Скопируйте репозиторий на свой компьютер. В качестве пароля укажите ваш `Access Token`, который нужно получить на странице [Personal Access Tokens](https://github.com/settings/tokens)):
-	* `git clone https://github.com/{{ username }}/de-project-sprint-7.git`
-3. Перейдите в директорию с проектом: 
-	* `cd de-project-sprint-7`
-4. Выполните проект и сохраните получившийся код в локальном репозитории:
-	* `git add .`
-	* `git commit -m 'my best commit'`
-5. Обновите репозиторий в вашем GutHub-аккаунте:
-	* `git push origin main`
-
-### Структура репозитория
-Вложенные файлы в репозиторий будут использоваться для проверки и предоставления обратной связи по проекту. Поэтому постарайтесь публиковать ваше решение согласно установленной структуре — так будет проще соотнести задания с решениями.
-
-Внутри `src` расположены две папки:
-- `/src/dags`;
-- `/src/sql`.
