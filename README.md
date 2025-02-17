@@ -21,7 +21,8 @@ Inside `src` next folders exist:
 ### Datalake structure
 1. Staging with raw data - /user/master/data/geo/events; parquet
 2. ODS with sampled data - /user/nabordotby/data/sample/, subfolders mart_1, mart_2, mart_3; parquet
-3. Sandbox for analytics /user/nabordotby/data/analytics/ , subfolders mart_1, mart_2, mart_3; parquet
+3. Sandbox for analytics /user/nabordotby/data/analytics/ , subfolders mart_1, mart_2, mart_3; parquet  
+
 Daily data refresh
 
 
